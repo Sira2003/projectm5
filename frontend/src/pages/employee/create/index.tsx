@@ -20,6 +20,7 @@ import { ImageUpload } from "../../../interfaces/IUpload";
 import { CreateEmployee, GetGenders,GetJobPositions } from "../../../services/https";
 import { useNavigate } from "react-router-dom";
 
+import isLoggedIn from "../../../routes/index"
 const { Option } = Select;
 
 function EmployeeCreate() {
@@ -31,13 +32,14 @@ function EmployeeCreate() {
 
   const onFinish = async (values: EmployeesInterface) => {
     let res = await CreateEmployee(values);
+    console.log("Is Logged In: ", isLoggedIn);
     if (res.status) {
       messageApi.open({
         type: "success",
         content: "บันทึกข้อมูลสำเร็จ",
       });
       setTimeout(function () {
-        navigate("/employees");
+        navigate("/employee");
       }, 2000);
     } else {
       messageApi.open({
@@ -60,7 +62,8 @@ function EmployeeCreate() {
     }
   };
   const onCancel = () => {
-    navigate("/employees"); // เปลี่ยนเส้นทางไปยังหน้าที่ต้องการเมื่อกดยกเลิก
+    navigate("/employee");// เปลี่ยนเส้นทางไปยังหน้าที่ต้องการเมื่อกดยกเลิก
+     console.log("Stored isLogin: ", localStorage.getItem("isLogin")); // เพิ่มการตรวจสอบที่นี่
   };
   useEffect(() => {
     getGender();

@@ -107,7 +107,6 @@ func DeleteEmployee(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Deleted successful"})
-
 }
 
 // PATCH /employees

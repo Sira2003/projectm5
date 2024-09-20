@@ -6,6 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"example.com/projectm4/config"
 	"example.com/projectm4/controller"
+
+	"example.com/projectm4/middlewares"
 )
 
 const PORT = "8000"
@@ -17,9 +19,15 @@ func main() {
 	config.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+	
+	// Auth Route
+	r.POST("/signup", controller.SignUp)
+	r.POST("/signin", controller.SignIn)
+
 	router := r.Group("")
 	{
 		// Employee Routes
+		router.Use(middlewares.Authorizes())
 		router.GET("/employees", controller.ListEmployees)
 		router.GET("/employee/:id", controller.GetEmployee)
 		router.POST("/employees", controller.CreateEmployee)

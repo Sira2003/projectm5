@@ -1,24 +1,38 @@
 import {EmployeesInterface } from "../../interfaces/IEmployee";
 import {PatientsInterface } from "../../interfaces/IPatient";
 
+import { SignInInterface } from "../../interfaces/SignIn";
+
 import axios from "axios";
 
 const apiUrl = "http://localhost:8000";
-// //
-// const Authorization = localStorage.getItem("token");
-// const Bearer = localStorage.getItem("token_type");
-// const requestOptions = {
-//   headers: {
-//     "Content-Type": "application/json",
-//     Authorization: `${Bearer} ${Authorization}`,
-//   },
-// };
-// //
+//
+const Authorization = localStorage.getItem("token");
+const Bearer = localStorage.getItem("token_type");
+const requestOptions = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `${Bearer} ${Authorization}`,
+  },
+};
+async function SignIn(data: SignInInterface) {
+  return await axios
+    .post(`${apiUrl}/signin`, data, requestOptions)
+    .then((res) => res)
+    //.catch((e) => e.response);
+    .catch((e) => {
+      console.error(e); // แสดงข้อผิดพลาดใน console เพื่อช่วยดีบั๊ก
+      return e.response; 
+    });
+}
+
+//
 async function GetEmployees() {
   const requestOptions = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `${Bearer} ${Authorization}`,
     },
   };
 
@@ -39,6 +53,7 @@ async function GetPatients() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `${Bearer} ${Authorization}`,
       },
     };
   
@@ -59,6 +74,7 @@ async function GetGenders() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `${Bearer} ${Authorization}`,
     },
   };
 
@@ -79,6 +95,7 @@ async function GetJobPositions() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `${Bearer} ${Authorization}`,
       },
     };
   
@@ -99,6 +116,7 @@ async function GetJobPositions() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `${Bearer} ${Authorization}`,
       },
     };
   
@@ -116,7 +134,8 @@ async function GetJobPositions() {
 
 async function DeleteEmployeeByID(id: Number | undefined) {
   const requestOptions = {
-    method: "DELETE"
+    method: "DELETE",
+    headers: {"Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
   };
 
   let res = await fetch(`${apiUrl}/employees/${id}`, requestOptions)
@@ -133,7 +152,8 @@ async function DeleteEmployeeByID(id: Number | undefined) {
 
 async function DeletePatientByID(id: Number | undefined) {
     const requestOptions = {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {"Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
     };
   
     let res = await fetch(`${apiUrl}/patients/${id}`, requestOptions)
@@ -150,7 +170,8 @@ async function DeletePatientByID(id: Number | undefined) {
 
 async function GetEmployeeById(id: Number | undefined) {
   const requestOptions = {
-    method: "GET"
+    method: "GET",
+    headers: {"Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
   };
 
   let res = await fetch(`${apiUrl}/employee/${id}`, requestOptions)
@@ -167,7 +188,8 @@ async function GetEmployeeById(id: Number | undefined) {
 
 async function GetPatientById(id: Number | undefined) {
     const requestOptions = {
-      method: "GET"
+      method: "GET",
+      headers: {"Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
     };
   
     let res = await fetch(`${apiUrl}/patient/${id}`, requestOptions)
@@ -186,7 +208,7 @@ async function GetPatientById(id: Number | undefined) {
 async function CreateEmployee(data: EmployeesInterface) {
   const requestOptions = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
     body: JSON.stringify(data),
   };
 
@@ -206,7 +228,7 @@ async function CreateEmployee(data: EmployeesInterface) {
 async function CreatePatient(data: PatientsInterface) {
     const requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" ,Authorization: `${Bearer} ${Authorization}`,},
       body: JSON.stringify(data),
     };
   
@@ -226,7 +248,7 @@ async function CreatePatient(data: PatientsInterface) {
 async function UpdateEmployee(data: EmployeesInterface) {
   const requestOptions = {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
     body: JSON.stringify(data),
   };
 
@@ -245,7 +267,7 @@ async function UpdateEmployee(data: EmployeesInterface) {
 async function UpdatePatient(data: PatientsInterface) {
     const requestOptions = {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",Authorization: `${Bearer} ${Authorization}`,},
       body: JSON.stringify(data),
     };
   
@@ -275,7 +297,8 @@ export {
   CreateEmployee,
   CreatePatient,
   UpdateEmployee,
-  UpdatePatient
+  UpdatePatient,
+  SignIn
   
   
 };
